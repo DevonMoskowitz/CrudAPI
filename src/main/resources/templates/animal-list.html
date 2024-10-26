@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Animal List</title>
+</head>
+<body>
+<div class="container mt-4">
+    <h1 data-th-text="${title}"></h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Species</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="animal : ${animals}">
+            <td><a data-th-href="@{/animals/{animalId}(animalId=${animal.animalId})}" data-th-text="${animal.animalId}"></a></td>
+            <td data-th-text="${animal.name}"></td>
+            <td data-th-text="${animal.species}"></td>
+            <td>
+                <a data-th-href="@{/animals/update/{animalId}(animalId=${animal.animalId})}">Update</a>
+                <a data-th-href="@{/animals/delete/{animalId}(animalId=${animal.animalId})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button onclick="openForm()">Create New Animal</button>
+    <form id="new-animal" action="/animals/create" method="post" style="display:none" class="mt-3">
+        <div class="mb-3">
+            <label for="new-name">Name</label>
+            <input type="text" id="new-name" name="name" placeholder="Name" required />
+        </div>
+        <div class="mb-3">
+            <label for="new-species" >Species</label>
+            <input type="text" id="new-species" name="species" placeholder="Species" required />
+        </div>
+        <div class="mb-3">
+            <label for="new-habitat" class="form-label">Habitat</label>
+            <input type="text" id="new-habitat" name="habitat" placeholder="Habitat" required />
+        </div>
+        <button type="submit" >Save</button>
+        <button type="reset" onclick="closeForm()">Cancel</button>
+    </form>
+
+    <form action="/animals/search" class="mb-4">
+        <label for="name-search">Search By Name</label>
+        <input type="text" id="name-search" name="name" placeholder="Search By Name 🔍">
+    </form>
+
+</div>
+
+<script>
+    function openForm() {
+        document.getElementById("new-animal").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("new-animal").style.display = "none";
+    }
+</script>
+</body>
+</html>
